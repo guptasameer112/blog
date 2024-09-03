@@ -7,12 +7,12 @@ const font = Lilita_One({ weight: "400", subsets: ["latin"] });
 
 const Navbar = () => {
   return (
-    <div className="mx-auto max-w-5xl px-6">
+    <div className="mx-auto max-w-5xl px-6 sticky top-0 rounded-3xl">
       <div className="flex justify-between items-center h-16 w-full">
         <Link href="/">
-          <div className={`${font.className} text-3xl dark:text-amber-50`}>
-            Dev
-            <span className="text-purple-500">Blook</span>
+          <div className={`font-bold text-3xl dark:text-amber-50`}>
+            ex
+            <span className="text-blue-500">ploring</span>
           </div>
         </Link>
         <ThemeSwitch />

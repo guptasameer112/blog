@@ -13,8 +13,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
+import { Inter } from "next/font/google";
 
-const dateFont = VT323({ weight: "400", subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 interface Params {
   params: {
@@ -95,35 +96,36 @@ const page = async ({ params, searchParams }: Params) => {
   }
 
   return (
-    <div>
-      <Header title={post?.title} />
-      <div className="text-center">
-        <span className={`${dateFont?.className} text-purple-500`}>
-          {new Date(post?.publishedAt).toDateString()}
-        </span>
-        <div className="mt-5">
-          {post?.tags?.map((tag) => (
-            <Link key={tag?._id} href={`/tag/${tag.slug.current}`}>
-              <span className="mr-2 p-1 rounded-sm text-sm lowercase dark:bg-gray-950 border dark:border-gray-900">
-                #{tag.name}
-              </span>
-            </Link>
-          ))}
+    <div className={`${inter.className} max-w-4xl mx-auto px-4`}>
+      {/* <Header title={post?.title} /> */}
+      <article className="mt-8">
+        <h1 className="text-3xl font-bold mb-4">{post?.title}</h1>
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-gray-600 dark:text-gray-400">
+            {new Date(post?.publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </span>
+          <div>
+            {post?.tags?.map((tag) => (
+              <Link key={tag?._id} href={`/tag/${tag.slug.current}`}>
+                <span className="inline-block mr-2 px-2 py-1 text-sm bg-gray-200 dark:bg-gray-800 rounded">
+                  {tag.name}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
-        <Toc headings={post?.headings} />
+        {/* <Toc headings={post?.headings} /> */}
         <div className={richTextStyles}>
           <PortableText
             value={post?.body}
             components={myPortableTextComponents}
           />
-          <AddComment postId={post?._id} />
-          <AllComments
-            comments={post?.comments || []}
-            slug={post?.slug?.current}
-            commentsOrder={commentsOrder.toString()}
-          />
         </div>
-      </div>
+      </article>
     </div>
   );
 };
@@ -186,15 +188,19 @@ const myPortableTextComponents = {
 };
 
 const richTextStyles = `
-mt-14
-text-justify
-max-w-2xl
-m-auto
-prose-headings:my-5
-prose-heading:text-2xl
-prose-p:mb-5
-prose-p:leading-7
-prose-li:list-disc
-prose-li:leading-7
-prose-li:ml-4
+mt-8
+text-lg
+leading-relaxed
+prose
+prose-headings:font-bold
+prose-h2:text-2xl
+prose-h3:text-xl
+prose-h4:text-lg
+prose-p:mb-4
+prose-a:text-blue-600
+prose-img:rounded-lg
+prose-pre:bg-gray-100
+prose-pre:p-4
+prose-pre:rounded
+dark:prose-invert
 `;
